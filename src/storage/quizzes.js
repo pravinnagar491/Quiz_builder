@@ -36,8 +36,7 @@ export function createQuiz({ title, blocks = [], published = false }) {
     published,
     updatedAt: new Date().toISOString()
   };
-
-  // ✅ persist quiz and update index
+  
   setQuiz(quiz.id, quiz);
   const idx = getIndex();
   setIndex([...idx, quiz.id]);
