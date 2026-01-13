@@ -7,6 +7,10 @@ import PropertiesPanel from './PropertiesPanel';
 import { getQuiz, updateQuiz, publishQuiz } from '../storage/quizzes';
 import { useParams, useNavigate } from 'react-router-dom';
 
+// ✅ Toast imports
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function QuizEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -46,15 +50,17 @@ export default function QuizEditor() {
 
   function handleSave() {
     updateQuiz(quiz);
-    alert('Quiz saved!');
-    navigate('/');
+    toast.success('✅ Quiz saved!');
+    // navigate after a short delay so toast is visible
+    setTimeout(() => navigate('/'), 1500);
   }
 
   function handlePublish() {
     const q = publishQuiz(quiz.id);
     pushHistory(q);
-    alert('Quiz published!');
-    navigate('/');
+    toast.success('🚀 Quiz published!');
+    // navigate after a short delay so toast is visible
+    setTimeout(() => navigate('/'), 1500);
   }
 
   // ✅ Keyboard shortcuts
@@ -104,13 +110,16 @@ export default function QuizEditor() {
         <div style={{ display: 'flex', flex: 1 }}>
           <BlockPalette />
           <Canvas
-  blocks={quiz.blocks}
-  setBlocks={setBlocks}
-  onSelect={setSelectedId}
-  selectedId={selectedId} 
-/>
+            blocks={quiz.blocks}
+            setBlocks={setBlocks}
+            onSelect={setSelectedId}
+            selectedId={selectedId}
+          />
           <PropertiesPanel selected={selectedBlock} updateBlock={updateBlock} />
         </div>
+
+        {/* ✅ Toast container */}
+        <ToastContainer position="top-center" autoClose={2000} />
       </div>
     </DndProvider>
   );

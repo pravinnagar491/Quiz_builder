@@ -3,6 +3,13 @@ import { useParams } from 'react-router-dom';
 import { getQuiz } from '../storage/quizzes';
 import './QuizRender.css';
 
+// ✅ Import toast
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// ✅ Initialize toast container once in your app (can be here or in App.js)
+import { ToastContainer } from 'react-toastify';
+
 export default function QuizRender() {
   const { id } = useParams();
   const [quiz, setQuiz] = useState(null);
@@ -31,7 +38,8 @@ export default function QuizRender() {
     if (nextIndex < quiz.blocks.length) {
       setCurrentIndex(nextIndex);
     } else {
-      alert('Quiz finished!');
+      // ✅ Show toast instead of alert
+      toast.success("🎉 Quiz finished!");
     }
   }
 
@@ -72,14 +80,14 @@ export default function QuizRender() {
                 ))}
               {currentBlock.kind === 'text' && <input type="text" />}
 
-              {/* If next block is footer, show it immediately */}
+              {/* Attach footer immediately if next block is footer */}
               {nextBlock && nextBlock.type === 'footer' && (
                 <p className="quiz-footer">{nextBlock.text}</p>
               )}
             </div>
           )}
 
-          {/* Footer alone (only if not attached to a question) */}
+          {/* Standalone footer (only if no question before it) */}
           {currentBlock.type === 'footer' && (
             <p className="quiz-footer">{currentBlock.text}</p>
           )}
@@ -89,9 +97,12 @@ export default function QuizRender() {
       <div className="quiz-actions">
         {currentIndex > 0 && <button onClick={handleBack}>Back</button>}
         <button onClick={handleNext}>
-          {currentIndex < quiz.blocks.length - 1 ? 'Next' : 'Finish'}
+          {currentIndex < quiz.blocks.length - 1 ? "Next" : "Finish"}
         </button>
       </div>
+
+      {/* ✅ Toast container */}
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }
