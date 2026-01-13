@@ -6,8 +6,6 @@ import Canvas from './Canvas';
 import PropertiesPanel from './PropertiesPanel';
 import { getQuiz, updateQuiz, publishQuiz } from '../storage/quizzes';
 import { useParams, useNavigate } from 'react-router-dom';
-
-// ✅ Toast imports
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,7 +15,6 @@ export default function QuizEditor() {
   const [quiz, setQuiz] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  // history for undo/redo
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
@@ -51,7 +48,6 @@ export default function QuizEditor() {
   function handleSave() {
     updateQuiz(quiz);
     toast.success('✅ Quiz saved!');
-    // navigate after a short delay so toast is visible
     setTimeout(() => navigate('/'), 1500);
   }
 
@@ -59,11 +55,9 @@ export default function QuizEditor() {
     const q = publishQuiz(quiz.id);
     pushHistory(q);
     toast.success('🚀 Quiz published!');
-    // navigate after a short delay so toast is visible
     setTimeout(() => navigate('/'), 1500);
   }
 
-  // ✅ Keyboard shortcuts
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Delete' && selectedId) {
@@ -106,7 +100,6 @@ export default function QuizEditor() {
           </div>
         </div>
 
-        {/* Body */}
         <div style={{ display: 'flex', flex: 1 }}>
           <BlockPalette />
           <Canvas
@@ -118,7 +111,6 @@ export default function QuizEditor() {
           <PropertiesPanel selected={selectedBlock} updateBlock={updateBlock} />
         </div>
 
-        {/* ✅ Toast container */}
         <ToastContainer position="top-center" autoClose={2000} />
       </div>
     </DndProvider>

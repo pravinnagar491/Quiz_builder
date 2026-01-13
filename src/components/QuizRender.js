@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getQuiz } from '../storage/quizzes';
 import './QuizRender.css';
-
-// ✅ Import toast
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// ✅ Initialize toast container once in your app (can be here or in App.js)
 import { ToastContainer } from 'react-toastify';
 
 export default function QuizRender() {
@@ -24,11 +20,11 @@ export default function QuizRender() {
   if (!quiz.blocks || quiz.blocks.length === 0) return <p>No blocks in this quiz.</p>;
 
   const currentBlock = quiz.blocks[currentIndex];
-  const nextBlock = quiz.blocks[currentIndex + 1]; // look ahead for footer
+  const nextBlock = quiz.blocks[currentIndex + 1]; 
 
   function handleNext() {
     let nextIndex = currentIndex + 1;
-    // skip over button and footer blocks (since footer is shown with question)
+  
     while (
       nextIndex < quiz.blocks.length &&
       (quiz.blocks[nextIndex].type === 'button' || quiz.blocks[nextIndex].type === 'footer')
@@ -38,7 +34,7 @@ export default function QuizRender() {
     if (nextIndex < quiz.blocks.length) {
       setCurrentIndex(nextIndex);
     } else {
-      // ✅ Show toast instead of alert
+    
       toast.success("🎉 Quiz finished!");
     }
   }
@@ -59,10 +55,10 @@ export default function QuizRender() {
 
       {currentBlock && currentBlock.type !== 'button' && (
         <div className="quiz-block">
-          {/* Heading */}
+       
           {currentBlock.type === 'heading' && <h2>{currentBlock.text}</h2>}
 
-          {/* Question + Footer together */}
+      
           {currentBlock.type === 'question' && (
             <div>
               <h3>{currentBlock.label}</h3>
@@ -80,14 +76,14 @@ export default function QuizRender() {
                 ))}
               {currentBlock.kind === 'text' && <input type="text" />}
 
-              {/* Attach footer immediately if next block is footer */}
+           
               {nextBlock && nextBlock.type === 'footer' && (
                 <p className="quiz-footer">{nextBlock.text}</p>
               )}
             </div>
           )}
 
-          {/* Standalone footer (only if no question before it) */}
+       
           {currentBlock.type === 'footer' && (
             <p className="quiz-footer">{currentBlock.text}</p>
           )}
@@ -101,7 +97,7 @@ export default function QuizRender() {
         </button>
       </div>
 
-      {/* ✅ Toast container */}
+    
       <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );

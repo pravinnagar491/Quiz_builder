@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 
 export default function Canvas({ blocks, setBlocks, onSelect, selectedId }) {
-  // Droppable area for adding new blocks from palette
   const [, drop] = useDrop(() => ({
     accept: 'BLOCK',
     drop: (item) => {
@@ -13,7 +12,7 @@ export default function Canvas({ blocks, setBlocks, onSelect, selectedId }) {
     }
   }));
 
-  // Helper to move blocks (reorder/insert before)
+
   function moveBlock(fromIndex, toIndex) {
     if (fromIndex === toIndex) return;
     const updated = [...blocks];
@@ -22,7 +21,7 @@ export default function Canvas({ blocks, setBlocks, onSelect, selectedId }) {
     setBlocks(updated);
   }
 
-  // Helper to delete a block
+
   function deleteBlock(id) {
     setBlocks(blocks.filter(b => b.id !== id));
   }
@@ -76,8 +75,6 @@ function CanvasBlock({ block, index, blocks, moveBlock, onSelect, deleteBlock, s
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      // Only move when cursor crosses the middle
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
